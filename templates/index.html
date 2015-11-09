@@ -1,12 +1,29 @@
 <html>
   <head>
+    {% load static from staticfiles %}
+    <link rel="stylesheet" href="static\css\main.css" type="text/css"/>
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js" ></script>
     <title>The Oceans</title>
   </head>
 <body>
+
+
+
+
   <h1>Do we have power</h1>
 
   <h2>Welcome! We have tons of fish for you bitch</h2>
+
+  <div id="header">
+    <h3>fin</h3>
+    <h3></h3>
+  </div>
+  
+  {% block login %}
+
+  {%endblock%}
+
 
 
 </body>

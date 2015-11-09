@@ -23,7 +23,7 @@ from . import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^fishbuy/' , include(views.hello_fishy)),
+    # url(r'^fishbuy/' , include(views.hello_fishy)),
     url(r'^$' , views.hello_fishy)
 
 ]
