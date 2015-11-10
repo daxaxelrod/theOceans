@@ -1,7 +1,11 @@
 from django.db import models
+import os
+import datetime
 from django.core.files.storage import FileSystemStorage
 from localflavor.us.us_states import STATE_CHOICES
 from localflavor.us.models import USStateField
+from slugify import slugify
+
 
 # Create your models here.
 
@@ -11,29 +15,27 @@ from localflavor.us.models import USStateField
 fs = FileSystemStorage(location="/media/photos")
 
 
-class Buyer(models.Model):
-    first_name = models.CharField(max_length=61)
-    last_name = models.CharField(max_length=61)
-    email = models.EmailsField()
-    password = models.PasswordField()
-    created_at = models.DateTimeField(auto_now_add=True, blank=True)
-    is_authenticated = models.BooleanField(default=False)
-    # only possible blank page
-    location = models.CharField(max_length=255, blank=True)
-
-# seller needs location info
-# They need to link a credit card
-
-
-class Seller(models.Model):
+class User(models.Model):
     first_name = models.CharField(max_length=61)
     last_name = models.CharField(max_length=61)
     email = models.EmailField()
+    password = models.PasswordField()
+    zip_code = models.CharField(max_length=255, blank=True)
+
+
+class Buyer(User):
+    created_at = models.DateTimeField(auto_now_add=True, blank=True)
+    is_authenticated = models.BooleanField(default=False)
+    # only possible blank page
+    # seller needs location info
+    # They need to link a credit card
+
+
+class Seller(User):
     street_address = models.CharField(max_length=100)
     apartment_number = models.CharField(max_length=10, blank=True)
     city = models.CharField(max_length=40)
     state = USStateField(choices=STATE_CHOICES)
-    zip_code = models.PositiveIntegerField()
     is_authenticated = models.BooleanField(default=False)
     # fishProducts = models.
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
@@ -48,7 +50,17 @@ class Seller(models.Model):
 
 class FishListing(models.Model):
     nameOfFish = models.CharField(max_length=25)
-    photosOfProduct = models.ImageField(storage=fs)
+    # this way or
+    # photosOfProduct = models.ImageField(storage=fs, blank=True)
+    # this way
+
+    @staticmethod
+    def generate_upload_path(filename):
+        filename, ext = os.path.splitext(filename.lower())
+        filename = "%s.%s%s" % (slugify(filename), datetime.datetime.now().strftime("%Y-%m-%d.%H-%M-%S"), ext)
+        return '%s%s' % (fs, filename)
+    fishPhoto = models.ImageField(blank=True, upload_to=generate_upload_path)
+
     # many to one to seller relationship
     fishermanWomen = models.ForeignKey(Seller)
     fishDesc = models.TextField()

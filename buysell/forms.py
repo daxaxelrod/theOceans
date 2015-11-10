@@ -6,6 +6,13 @@ from django.core.exceptions import ValidationError
 
 __author__ = 'David'
 
+def name_exists(form, field):
+    # does the user exist in the data base
+    if False: # check the user and see if it exists
+        raise ValidationError("You need to pick a different username")
+    else:
+        return
+
 
 class LoginForm(forms.Forms):
     first_name_form = forms.CharField(label="Your first name", max_length=61)
@@ -13,10 +20,16 @@ class LoginForm(forms.Forms):
     email_form = forms.EmailField(label="Email", validators=[validators.EmailValidator])
 
 
-class RegistrationForm(forms.Form):
-    first_name_form = forms.CharField(label="First name", max_length=61)
+class RegistrationForm(forms.Form):                                                         #method or prop
+    first_name_form = forms.CharField(label="First name", max_length=61, validators=[name_exists()])
     last_name_form = forms.CharField(label="Last Name", max_length=61)
+    password_form = forms.CharField(label="Enter Password" ,widget=forms.PasswordInput())
+    password_confirm_form = forms.CharField("Please Ccnfirm Your Password", widget=forms.PasswordInput)
     email_form = forms.EmailField(label="Email", validators=[validators.EmailValidator])
+
+
+class RegistrationBuyerExten(RegistrationForm):
+    location_form = forms.IntegerField(label="Whats your zip code?", min_value=5)
 
 
 class ContactForm(forms.Form):
@@ -33,5 +46,5 @@ VALID_IMAGE_EXTENSIONS = [
 
 class NewFishForVendor(forms.Form):
     fish_name = forms.CharField(label="Name of Fish", max_length=40, validators=[validators.MinLengthValidator()])
-    phish_photo = forms.FileField()
+    phish_photo = forms.FileField()  # this works well
     fish_description = forms.Textarea()
