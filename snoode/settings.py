@@ -52,12 +52,12 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'snoode.urls'
-TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
+#  TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

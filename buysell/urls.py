@@ -1,4 +1,9 @@
-"""snoode URL Configuration
+from django.conf.urls import include, url
+from django.contrib import admin
+from . import views
+
+__author__ = 'David'
+""" Buysell URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.8/topics/http/urls/
@@ -13,19 +18,12 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf import settings
-from django.conf.urls import include, url
-from django.contrib import admin
-# from django.contrib.staticfiles.urls import staticfile_urlpatterns
-
-from . import views
 
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'login/', views.login(), name="login"),
+    url(r'register-buyer/', views.registration_buyer(), name="buyerReg"),
     # url(r'^fishbuy/' , include(views.hello_fishy)),
-    url(r'^$' , views.hello_fishy)
+
 
 ]
-
-# urlpatterns += staticfiles_urlpattens()

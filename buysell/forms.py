@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 
 __author__ = 'David'
 
+
 def name_exists(form, field):
     # does the user exist in the data base
     if False: # check the user and see if it exists
@@ -14,6 +15,9 @@ def name_exists(form, field):
         return
 
 
+def usernameExists(form, field):
+    form.data
+
 class LoginForm(forms.Forms):
     first_name_form = forms.CharField(label="Your first name", max_length=61)
     last_name_form = forms.CharField(label="Last Name", max_length=61)
@@ -21,6 +25,7 @@ class LoginForm(forms.Forms):
 
 
 class RegistrationForm(forms.Form):                                                         #method or prop
+    username_form = forms.CharField(label="Enter desired username", max_length=61,validators=[usernameExists])
     first_name_form = forms.CharField(label="First name", max_length=61, validators=[name_exists()])
     last_name_form = forms.CharField(label="Last Name", max_length=61)
     password_form = forms.CharField(label="Enter Password" ,widget=forms.PasswordInput())
@@ -28,8 +33,9 @@ class RegistrationForm(forms.Form):                                             
     email_form = forms.EmailField(label="Email", validators=[validators.EmailValidator])
 
 
+
 class RegistrationBuyerExten(RegistrationForm):
-    location_form = forms.IntegerField(label="Whats your zip code?", min_value=5)
+    zip_code_form = forms.IntegerField(label="Whats your zip code?", min_value=5)
 
 
 class ContactForm(forms.Form):
